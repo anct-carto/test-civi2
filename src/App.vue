@@ -104,7 +104,8 @@ export default {
 html, body {
   font-size:11px;
   font-family: 'Marianne-Regular', Arial, Helvetica, sans-serif !important;
-  background-color: #e6eaf5 !important;
+  background-color: white !important;
+  /* #E6F0EE */
   margin:0;
   height: 100%;
 }
@@ -190,7 +191,7 @@ select,option {
 }
 
 .form-select {
-  border:1px solid #DADAF0;
+  border:1px solid #78c2b0;
   border-radius: 8px !important;
   padding:8px 10px;
   height:35px;

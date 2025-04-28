@@ -73,7 +73,7 @@ export default {
     color:#d24b6b;
     background: white;
     border-radius: 8px;
-    border: 1px solid #DADAF0 ;
+    border: 1px solid #e0e0e0 ;
     vertical-align: middle !important;
     padding: 5px 10px 5px 8px;
     margin-top:10px;

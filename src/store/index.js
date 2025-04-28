@@ -5,7 +5,7 @@ export default createStore({
   state: {
     annee:null,
     // ici ajouter au tableau l'année pour lire les nouveaux fichiers
-    listAnnees:["2023","2022","2021","2020"], 
+    listAnnees:["2024", "2020-2023"], 
     echelle:null,
     filterCode:null,
     filterTheme:null,
@@ -54,16 +54,22 @@ export default createStore({
         let theme = state.data[i].theme 
         switch (theme) {
           case "1":
-            theme = "1 - Cohésion sociale"
+            theme = "1 - Éducation"
             break;
           case "2":
-            theme = "2 - Développement économique et emploi"
+            theme = "2 - Accès aux droits"
             break;
           case "3":
-            theme = "3 - Cadre de vie et renouvellement urbain"
+            theme = "3 - Cadre de vie, sociabilité et transitions"
             break;
           case "4":
-            theme = "4 - Pilotage, ingénierie, ressources et évaluations"
+            theme = "4 - Jeunesse, accès à la culture, aux sports et aux loisirs"
+            break;
+          case "5":
+            theme = "5 - Emploi et développement économique"
+            break;
+          case "6":
+            theme = "6 - Soutien aux acteurs de la politique de la ville"
             break;
         }
         state.data[i].theme = theme;
@@ -72,46 +78,79 @@ export default createStore({
         let sous_theme = state.data[i].sous_theme 
         switch (sous_theme) {
           case "1.1":
-            sous_theme = "1.1 - Education"
+            sous_theme = "1.1 - Programme de réussite éducative (PRE)"
             break;
           case "1.2":
-            sous_theme = "1.2 - Santé"
+            sous_theme = "1.2 - Soutien à la scolarité"
             break;
           case "1.3":
-            sous_theme =  "1.3 - Parentalité et droits sociaux"
+            sous_theme =  "1.3 -Cités éducatives"
             break;
           case "1.4":
-            sous_theme =  "1.4 - Culture et expression artistique"
-            break;
-          case "1.5":
-            sous_theme =  "1.5 - Lien social, citoyenneté et participation des habitants"
-            break;
-          case "1.5a":
-            sous_theme =  "1.5a - Jeunesse"
-            break;
-          case "1.5b":
-            sous_theme =  "1.5b - Sport et loisir"
-            break;
-          case "1.6":
-            sous_theme =  "1.6 - Prévention et lutte contre les discriminations liées à l'origine et à l'adresse"
+            sous_theme =  "1.4 - Persévérance scolaire et accès à des études supérieures"
             break;
           case "2.1":
-            sous_theme =  "2.1 - Emploi"
+            sous_theme =  "2.1 - Santé"
             break;
           case "2.2":
-            sous_theme =  "2.2 - Développement économique"
+            sous_theme =  "2.2 - Soutien à la parentalité"
+            break;
+          case "2.3":
+            sous_theme =  "2.3 - Citoyenneté"
+            break;
+          case "2.4":
+            sous_theme =  "2.4 - Prévention et lutte contre les discriminations liées à l'origine et à l'adresse"
             break;
           case "3.1":
-            sous_theme =  "3.1 - Cadre de vie et renouvellement urbain" 
+            sous_theme =  "3.1 - Cadre de vie" 
             break;
           case "3.2":
             sous_theme =  "3.2 - Tranquillité et sûreté publique"
             break;
+          case "3.3":
+            sous_theme =  "3.3 - Médiation sociale"
+            break;
+          case "3.4":
+            sous_theme =  "3.4 - Transitions"
+            break;
           case "4.1":
-            sous_theme =  "4.1 - Pilotage, ingénierie, ressources et évaluations"
+            sous_theme =  "4.1 - Jeunesse"
             break;
           case "4.2":
-            sous_theme =  "4.2 - Structures mutualisatrices"
+            sous_theme =  "4.2 - Culture et expression artistique"
+            break;
+          case "4.3":
+            sous_theme =  "4.3 - Sports"
+            break;
+          case "4.4":
+            sous_theme =  "4.4 - Vacances et loisirs"
+            break;
+          case "5.1":
+            sous_theme = "5.1 - Emploi"
+            break;
+          case "5.2":
+            sous_theme = "5.2 - Cités de l'emploi"
+            break;
+          case "5.3":
+            sous_theme =  "5.3 - Engagement des entreprises et PAQTE"
+            break;
+          case "5.4":
+            sous_theme =  "5.4 - Attractivité et développement économique"
+            break;
+          case "5.5":
+            sous_theme =  "5.5 - Entrepreneuriat Quartiers 2030"
+            break;
+          case "6.1":
+            sous_theme =  "6.1 - Soutien à l'initiative associative"
+            break;
+          case "6.2":
+            sous_theme =  "6.2 - Participation des habitants"
+            break;
+          case "63":
+            sous_theme =  "63 - Pilotage, ingénierie, ressources et évaluations"
+            break;
+          case "6.4":
+            sous_theme =  "6.4 - Structures mutualisatrices" 
             break;
           }
           state.data[i].sous_theme = sous_theme;
@@ -194,11 +233,21 @@ export default createStore({
         }
       }
     },
-    async CHANGE_ANNEE(state,annee) {
-      state.annee = annee;
-      state.data = require(`@/assets/subventions-${state.annee}.json`)
-      state.dataFonjep = require(`@/assets/postes-fonjep-${state.annee}.json`)
-      state.dataAdulteRelais = require(`@/assets/adulte-relais-${state.annee}.json`)    
+    async CHANGE_ANNEE(state, annee) {
+      if (annee === "2020-2023") {
+        // Redirection vers le Ci.ville 2020-2023 - ouverture dans un nouvel onglet : 
+        window.open("https://carto.pages.gitlab.donnees.incubateur.anct.gouv.fr/vie-associative/#/panorama/contrat-de-ville", "_blank");
+      } else {
+        // Si une autre année est sélectionnée, charger les fichiers JSON comme avant
+        state.annee = annee;
+        try {
+          state.data = require(`@/assets/subventions-${state.annee}.json`);
+          state.dataFonjep = require(`@/assets/postes-fonjep-${state.annee}.json`);
+          state.dataAdulteRelais = require(`@/assets/adulte-relais-${state.annee}.json`);
+        } catch (error) {
+          console.error("Erreur lors du chargement des fichiers pour l'année sélectionnée :", error);
+        }
+      }
     },
   },
   actions: {

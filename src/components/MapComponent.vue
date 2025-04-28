@@ -484,7 +484,8 @@ export default {
   width: auto;
   height:calc(100vh - 150px) !important;
   background: white;
-  /* box-shadow: 0 2px 2px rgba(0,0,0,.02), 0 0px 2px rgba(0,0,0,.01); */
+   /* border: 0.5px solid rgb(116, 116, 116); */
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.20), 0 0px 2px rgba(0,0,0,.01);
   border-radius: 5px;
 }
 

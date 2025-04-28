@@ -1,5 +1,6 @@
 <template>
-      <div>
+      <div
+      class="chart-container">
         <canvas id="theme-chart"></canvas>
       </div>
 </template>
@@ -10,7 +11,7 @@ import Chart from 'chart.js/auto';
 import * as _ from "underscore"
 import {mapState} from 'vuex'
 
-Chart.defaults.font.size = 10.5;
+// Chart.defaults.font.size = 10.5;
 
 export default {
   name: 'ThemeChart',
@@ -18,7 +19,7 @@ export default {
     this.chart = null
     return {
       selected:null,
-      colors:['#3b5fa9','#009f79','#293173','#ff9b4f']
+      colors:['#313778','#DE9F00','#88ACDC', '#03AC84', '#de7330','#0f5d48']
     }
   },
   computed: {
@@ -38,7 +39,7 @@ export default {
             return e.annee == this.annee
           }
         });
-        actionsCount = this.transformData(filteredData);        
+        actionsCount = this.transformData(filteredData);
       } else {
         actionsCount = this.transformData(this.actions)
       }
@@ -62,10 +63,31 @@ export default {
   },
   mounted() {
     this.createChart();
+    window.addEventListener('resize', this.updateFontSize); // Ajouter l'écouteur de redimensionnement
+  },
+  beforeUnmount() {
+  window.removeEventListener('resize', this.updateFontSize); // Nettoyage de l'écouteur lors de la destruction
   },
   methods: {
+    calculateFontSize() {
+      const width = window.innerWidth;
+      // Calcule une taille de police en fonction de la largeur de la fenêtre
+      if (width > 1200) return 9;
+      if (width > 800) return 7;
+      return 5;
+    },
+    updateFontSize() {
+      // Met à jour la taille de police dans les options du graphique
+      if (this.chart) {
+        this.chart.options.plugins.legend.labels.font.size = this.calculateFontSize();
+        this.chart.update();
+      }
+    },
+
+
     createChart() {
       const ctx = document.getElementById('theme-chart');
+      const fontSize = this.calculateFontSize();
 
       let chartOptions = {
         type: 'doughnut',   // le type du graphique
@@ -82,6 +104,8 @@ export default {
           }]
         },
         options:{
+          rotation: -90,  // Faire commencer le graphique en bas (semi-cercle)
+          circumference: 180,
           onClick:(evt,el,chart) => {
             // 1. récupérer les nouvellles modalités ...
             let point = chart.getElementsAtEventForMode(evt, 'point', { intersect: true}, true);
@@ -125,12 +149,14 @@ export default {
                   display: true,
                   position:'top',
                   direction:'vertical',
-                  // align: "start",  // alignement à gauche 
+                  //align: "start",  // alignement à gauche
                   labels:{
                     usePointStyle:true,
                     font:{
-                      family:'Marianne-Regular'
-                    }
+                      family:'Marianne-Regular',
+                      size:fontSize,//défini taille de la police
+                    },
+            padding: 8, // Ecart entre les labels des thèmes
                   },
                   onClick:(evt,el) => {
                     let themeSelected = el.text;
@@ -169,7 +195,7 @@ export default {
                 // formattage texte tooltip
                 callbacks: {
                   label: tooltip => {
-                    // afficher label + montant formaté + pourcentage 
+                    // afficher label + montant formaté + pourcentage
                     const total = this.dataset.reduce((a, b) => {
                       return a + b;
                     }, 10);
@@ -186,10 +212,10 @@ export default {
           },
           responsive:true,
           maintainAspectRatio:false,
-          aspectRatio: 1, 
+          aspectRatio: 1,
         }
       };
-      
+
       // initialisation sur la page
       const chart = new Chart(ctx, chartOptions);
       this.chart = chart;
@@ -199,12 +225,12 @@ export default {
       // mise à jour des items et des valeurs par items
 
       // 1. légende
-      chartData.labels = this.labels; 
-      
+      chartData.labels = this.labels;
+
       // 2. données
       chartData.datasets[0].data = this.dataset;
       chartData.datasets[0].labels = this.labels;
-      
+
       // mise à jour des couleurs en fonction des items présents
       chartData.datasets[0].backgroundColor = [];
       const newColors = chartData.datasets[0].backgroundColor
@@ -220,7 +246,7 @@ export default {
           newColors.push(this.getColor(theme))
         }
       })
-      
+
       this.chart.update()
     },
     getColor(theme) {
@@ -234,6 +260,10 @@ export default {
             return this.colors[2]
           case "4":
             return this.colors[3]
+          case "5":
+            return this.colors[4]
+          case "6":
+            return this.colors[5]
         }
     },
     transformData(data) {
@@ -255,8 +285,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.chart-container {
+  display: flex;
+  justify-content: center;   /* Centre le canvas horizontalement */
+  align-items: center;       /* Centre le canvas verticalement */
+  height: flex;             /* Ajuste la hauteur selon ton besoin */
+  width: 100%;               /* Le conteneur occupe toute la largeur */
+}
+
+canvas {
+  width: 100% !important;    /* Le canvas s'adapte à la taille du conteneur */
+  height: 100% !important;   /* Le canvas s'adapte à la taille du conteneur */
+}
   div {
-    width: 100%;
+    width: 80%;
     padding:1px;
   }
 </style>

@@ -25,6 +25,7 @@
                           :texte="'Porteurs de projets'"
                           :color="color.bleuGrandeEquipe"
                           />
+                
                   <Number :chiffreCle="nbFonjep" 
                           :texte="'Postes Fonjep'"
                           :color="color.bleuGrandeEquipe"
@@ -39,7 +40,7 @@
                           />
               </div>
             <div class="col-12 col-sm-9 d-flex flex-column h-100" id="charts">
-                <Card :title="`Répartition subventions par pilier de contrat de ville`" 
+                <Card :title="`Répartition subventions par thème de contrat de ville`" 
                       :about='"Sélectionnez un thème pour filtrer les chiffres clés, la carte et la répartition dans les sous-thèmes correspondants"'>
                   <ThemeChart/>
                 </Card>
@@ -100,7 +101,7 @@ export default {
 }
 
 #charts {
-        height:calc(100vh - 115px) !important;
+        height:calc(100vh - 105px) !important;
 }
 
 </style>

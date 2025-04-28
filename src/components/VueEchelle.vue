@@ -53,6 +53,11 @@ export default {
   computed:{
     colWidth() {
       return this.libEchelle == 'Global' ? 12 : 5
+    },
+    sidePanelStyle() {
+      return {
+        width: this.libEchelle == 'Global' ? '100%' : '578.16px'
+      }
     }
   },
 }

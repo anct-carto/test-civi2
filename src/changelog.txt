@@ -1,14 +1,12 @@
 ----------------------------------------------------------------
 
-## au 10 mars 2023
+## au 10 mars 2024
 
 Fait 
 
 ----- Données -----
 
-- nouveauté : ajout données 2022 
-- résolution de bug : ajout données corse pour 2020 et 2021
-- résolution de bug : réassignation des échelles région, département et contrat de ville pour 2020 et 2021 
+- ajout des données 2024
 
 ----- UI -----
 - résolution de bug : liste navigation "échelle géographique" : seul le nom de la modalité s'affiche 
